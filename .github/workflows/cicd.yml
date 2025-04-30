@@ -43,3 +43,32 @@ jobs:
           yc managed-postgresql cluster create --name defectdojo-db
           docker tag defectdojo cr.yandex/<registry-id>/defectdojo
           docker push cr.yandex/<registry-id>/defectdojo
+
+- name: Run Bandit
+  run: |
+    pip install bandit
+    bandit -r defectdojo/ 
+
+    - name: Run OWASP ZAP
+  run: |
+    docker run -v $(pwd):/zap/wrk/:rw -t owasp/zap2docker-stable zap-baseline.py -t http://localhost:8000
+
+- name: Run Trivy
+  run: |
+    docker run --rm aquasec/trivy image defectdojo
+
+    - uses: GitGuardian/gg-shield-action@v1
+  with:
+    api-key: ${{ secrets.GITGUARDIAN_API_KEY }}
+
+if: failure()
+run: exit 1  # Остановит пайплайн при ошибках безопасности
+
+- uses: actions/github-script@v6
+  with:
+    script: |
+      github.rest.issues.createComment({
+        body: "Обнаружены уязвимости. Исправьте их перед слиянием."
+      })
+    
+    
