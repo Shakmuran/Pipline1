@@ -10,13 +10,19 @@ on:
        - main
  
 jobs:
-   # 1. Стадия сборки и тестирования
-   build:
-     runs-on: ubuntu-latest
- 
- @@ -27,45 +31,117 @@
-       run: |
-         pytest
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install dependencies
+        working-directory: Pipline1  # Укажите путь к package.json
+        run: npm install
  
    # 2. Стадия деплоя
  deploy:
