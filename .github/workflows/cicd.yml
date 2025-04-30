@@ -23,7 +23,7 @@ jobs:
         working-directory: Pipline1  # Укажите путь к package.json
         run: npm install
  
-   # 2. Стадия деплоя
+ 
  deploy:
      runs-on: ubuntu-latest
      needs: build  # деплой начинается только после успешных тестов
@@ -41,7 +41,7 @@ jobs:
  
      - name: Run static analysis (Bandit)
        id: bandit
-   # 3. Стадия статического анализа (Bandit)
+  
    bandit:
      runs-on: ubuntu-latest
      needs: build  # анализы выполняются после успешных тестов
@@ -65,7 +65,7 @@ jobs:
          name: bandit-report
          path: bandit-report.json
  
-   # 4. Стадия динамического анализа (OWASP ZAP)
+ 
    zap:
      runs-on: ubuntu-latest
      needs: build
@@ -82,7 +82,7 @@ jobs:
          name: zap-report
          path: zap-report.html
  
-   # 5. Стадия анализа на секреты (TruffleHog)
+
    trufflehog:
      runs-on: ubuntu-latest
      needs: build
@@ -103,7 +103,7 @@ jobs:
          name: trufflehog-results
          path: trufflehog-results.json
  
-   # 6. Стадия анализа Dockerfile (Hadolint)
+   
    hadolint:
      runs-on: ubuntu-latest
      needs: build
@@ -130,7 +130,7 @@ jobs:
  
      - name: Stop release if critical vulnerabilities found
        if: failure()
-   # 7. Остановка релиза при критических уязвимостях
+  
    stop_release:
      runs-on: ubuntu-latest
      needs: [bandit, zap, trufflehog, hadolint]  # этот шаг выполняется после всех анализов
