@@ -98,7 +98,6 @@ trufflehog:
        with:
          name: trufflehog-results
          path: trufflehog-results.json
-
    hadolint:
      runs-on: ubuntu-latest
      needs: build
