@@ -20,7 +20,7 @@ on:
           node-version: 20
 
       - name: Install dependencies
-        working-directory: Pipline1  # Укажите путь к package.json
+        working-directory: /home/runner/work/Pipline1
         run: npm install
 deploy:
      runs-on: ubuntu-latest
