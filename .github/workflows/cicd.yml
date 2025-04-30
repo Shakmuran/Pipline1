@@ -1,4 +1,3 @@
-# Shakmuran GitHub Action CI/CD Pipline
 name: CI/CD Pipeline
  
 on:
